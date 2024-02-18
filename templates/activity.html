@@ -1,0 +1,25 @@
+<th:block th:fragment="head">
+    <script th:src="@{/assets/libs/p5/p5.min.js}"></script>
+</th:block>
+
+<th:block th:fragment="content">
+    <div class="content">
+        <div class="post_page">
+            <div class="post animated fadeInDown">
+                <div class="post_title post_detail_title">
+                    <h2 th:text="${singlePage.spec.title}"></h2>
+                    <div class="post_tags">
+                        发布于
+                        <time th:attr="datetime=${#dates.format(singlePage.spec.publishTime, 'yyyy-MM-dd')}"
+                            th:text="${#dates.format(singlePage.spec.publishTime,'yyyy年MM月dd日')}"
+                            th:title="${#dates.format(singlePage.spec.publishTime,'yyyy-MM-dd')}"></time>
+                        <spam class="post_tags_devider">|</spam>
+                        <span th:text="${singlePage.stats.visit}"></span> 次浏览
+                    </div>
+                </div>
+                <div th:utext="${'true'.equals(singlePage.metadata.annotations.get('need-raw'))?singlePage.content.raw:singlePage.content.content}" class="post_content markdown activity-posts">
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

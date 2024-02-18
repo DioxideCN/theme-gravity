@@ -1,0 +1,152 @@
+<th:block th:fragment="sidebar">
+    <div th:unless="${#strings.equals(_templateId, 'post')}" class="sidebar">
+        <div th:if="${pluginFinder.available('gravity-power')} and ${theme.config.sidebar.widget_weather}" class="sidebar-item">
+            <article class="widget">
+                <div class="weatherData" id="weather-widget">
+                    <h1 class="temperature skeleton"></h1>
+                    <h2 class="description skeleton"></h2>
+                    <h3 class="city skeleton"></h3>
+                </div>
+                <div class="date" id="weather-date">
+                    <h4 class="month"></h4>
+                    <h5 class="day"></h5>
+                </div>
+            </article>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_about.enable}" class="sidebar-item about-me">
+            <div class="child-detail">
+                <div class="head-img">
+                    <img th:src="${theme.config.sidebar.widget_about.avatar}" />
+                </div>
+                <div class="owner-info">
+                    <p class="owner-name" th:text="${theme.config.sidebar.widget_about.nickname}"></p>
+                    <p class="owner-intro" th:text="${theme.config.sidebar.widget_about.description}"></p>
+                </div>
+            </div>
+            <div class="show-block address">
+                <i class="ri-map-pin-line"></i><span th:text="${theme.config.sidebar.widget_about.address}"></span>
+            </div>
+            <div class="show-block contact-with-me">
+                <i class="ri-mail-line"></i><span th:text="${theme.config.sidebar.widget_about.email}"></span>
+            </div>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_search}" class="sidebar-item search">
+            <input class="search-input" placeholder="检索文章" autocomplete="off" value="">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="var(--font-color)" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_read}" class="sidebar-item sidebar-hot">
+            <div class="sidebar-title hot-collection">
+                <h6>热点文章</h6>
+            </div>
+            <div class="hot-post-list skeleton" id="sortedPosts">
+                <div class="hot-post-node"><a class="skeleton-empty"></a></div>
+                <div class="hot-post-node"><a class="skeleton-empty"></a></div>
+                <div class="hot-post-node"><a class="skeleton-empty"></a></div>
+            </div>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_giscus}" class="sidebar-item">
+            <div class="sidebar-title">
+                <h6>最新评论</h6>
+            </div>
+            <div class="newest-reply" id="newestComment">
+                <div class="each-comment-card skeleton">
+                    <div class="comment-box">
+                        <div class="comment-img">
+                            <div class="comment-avatar"></div>
+                        </div>
+                        <div class="comment-content">
+                            <p class="comment-poster"></p>
+                            <p class="comment-detail"></p>
+                            <p class="comment-time"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="each-comment-card skeleton">
+                    <div class="comment-box">
+                        <div class="comment-img">
+                            <div class="comment-avatar"></div>
+                        </div>
+                        <div class="comment-content">
+                            <p class="comment-poster"></p>
+                            <p class="comment-detail"></p>
+                            <p class="comment-time"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="each-comment-card skeleton">
+                    <div class="comment-box">
+                        <div class="comment-img">
+                            <div class="comment-avatar"></div>
+                        </div>
+                        <div class="comment-content">
+                            <p class="comment-poster"></p>
+                            <p class="comment-detail"></p>
+                            <p class="comment-time"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_archive}" class="sidebar-item">
+            <div class="sidebar-title">
+                <h6>归档统计</h6>
+            </div>
+            <div class="activity-post-graph">
+                <div id="activityPosts">
+                </div>
+            </div>
+        </div>
+        <div th:if="${theme.config.sidebar.widget_tags}" class="sidebar-item tags-record">
+            <div class="sidebar-title">
+                <h6>分类标签</h6>
+            </div>
+            <div id="tags-box" class="tags-box" th:with="tags = ${tagFinder.list(1,50)}">
+                <a th:each="tag : ${tags}"
+                    th:href="@{${tag.status.permalink}}"
+                    class="tag-each">
+                    <i class="ri-hashtag"></i>[[${tag.spec.displayName}]]
+                    <div class="tag-counter--container"><span class="tag-counter" th:if="${tag.status.visiblePostCount != 0}" th:text="${tag.status.visiblePostCount}"></span></div>
+                </a>
+            </div>
+        </div>
+        <script class="clearable" th:inline="javascript">
+            let posts = [[${postFinder.listAll()}]];
+        </script> 
+        <div th:unless="${#strings.isEmpty(theme.config.sidebar.ko_fi.support) || #strings.isEmpty(theme.config.sidebar.ko_fi.image)}" class="sidebar-item sidebar-ko_fi">
+            <a th:href="${theme.config.sidebar.ko_fi.support}" target="_blank" style="line-height: 0px;display: block;"><img class="ko-fi_support" alt="Ko-fi support" th:src="@{${theme.config.sidebar.ko_fi.image}}"></a>
+        </div>   
+    </div>
+    <div th:if="${#strings.equals(_templateId, 'post')}" class="sidebar post-ext">
+        <div th:if="${theme.config.sidebar.widget_search}" class="sidebar-item search">
+            <input class="search-input" placeholder="检索文章" autocomplete="off" value="">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="var(--font-color)" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+        </div>
+        <div class="sidebar-item sidebar-toc-menu">
+            <div class="sidebar-title">
+                <h6>目录大纲</h6>
+            </div>
+            <div class="toc-menu">
+                <ul id="toc-menu-ul">
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar-item">
+            <div class="reactive-icon">
+                <div class="middle-wrapper">
+                    <a th:href="|javascript:handlePostLike('${post.metadata.name}')|" th:data-metadata-name="${post.metadata.name}" class="upvote-wrapper">
+                        <i class="ri-thumb-up-line"></i>
+                    </a>
+                    <a title="GitHub Project" class="github-wrapper">
+                        <i class="ri-github-line"></i>
+                    </a>
+                    <a title="分享" class="share-wrapper">
+                        <i class="ri-share-forward-box-line"></i>
+                    </a>
+                    <a title="复制文章链接" class="link-wrapper">
+                        <i class="ri-link"></i>
+                    </a>
+                </div>                  
+            </div>
+        </div>
+    </div>
+</th:block>

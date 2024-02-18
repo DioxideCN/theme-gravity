@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head =  ~{::head}, title = '目录 ｜ ' + ${site.title} ,content = ~{::content}, bannerSection = ~{modules/banner::banner-directory}, err = false)}">
+<th:block th:fragment="head">
+</th:block>
+
+<th:block th:fragment="content">
+    <div class="content" style="padding-bottom: 20px;">
+        <div class="post_page">
+            <div class="post animated" style="border: none">
+                <th:block
+                    th:fragment="directory"
+                    th:with="categories = ${categoryFinder.listAll()}">
+                <div class="categories-container">
+                    <th:block th:each="category : ${categories}" th:if="${category.status.visiblePostCount > 0}">
+                        <th:block th:each="i : ${#numbers.sequence(0, (category.status.visiblePostCount - 1) / site.post.postPageSize)}">
+                        <div class="category" th:with="posts = ${postFinder.listByCategory(i + 1, site.post.postPageSize, category.metadata.name)}" th:attr="data-collection=${category.spec.displayName}">
+                            <h2 th:if="${i == 0}" class="category-title" th:text="${category.spec.displayName}"></h2>
+                            <div th:if="${i != 0}" class="category-block"></div>
+                            <ol class="posts-container" th:attr="data-collection=${category.spec.displayName}">
+                                <li th:each="post,it : ${posts}" th:attr="data-order=${i * site.post.postPageSize + it.index + 1}">
+                                    <a th:href="@{${post.status.permalink}}" class="post" th:text="${post.spec.title}"></a>
+                                </li>
+                            </ol>
+                        </div>
+                        </th:block>
+                    </th:block>
+                </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

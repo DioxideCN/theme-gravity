@@ -1,0 +1,37 @@
+<div th:fragment="postList(postItems)" 
+    id="post-list" 
+    th:data-page-size="${site.post.postPageSize}">
+    <div class="post animated fadeInDown" 
+        th:classappend="${post.spec.pinned} ? 'post-pinned' : ''"
+        th:each="post : ${postItems}">
+        <div class="wrap">
+            <!-- 文章标题 -->
+            <div class="post_title">
+                <h2><a class="link-green" th:href="@{${post.status.permalink}}" th:text="${post.spec.title}"></a></h2>
+            </div>
+            <!-- 文章简介 -->
+            <div class="post_content markdown" th:text="${post.status.excerpt}"></div>
+            <!-- 文章标签 -->
+            <div class="post_tags">
+                <i class="ri-time-line"></i><time th:attr="datetime=${#dates.format(post.spec.publishTime, 'yyyy/MM/dd')}"
+                    th:text="${#dates.format(post.spec.publishTime,'yyyy/MM/dd')}"
+                    th:title="${#dates.format(post.spec.publishTime,'yyyy/MM/dd')}"></time>
+                <spam class="post_tags_devider">|</spam>
+                <i class="ri-eye-line"></i><span th:text="${post.stats.visit}"></span>
+                <spam class="post_tags_devider">|</spam>
+                <i class="ri-thumb-up-line"></i><span th:text="${post.stats.upvote}"></span>
+                <th:block th:if="${post.categories.size()} != 0">
+                    <spam class="post_tags_devider">|</spam>
+                    <i class="ri-archive-line"></i><span th:text="${post.categories.get(0).spec.displayName}"></span>
+                </th:block>
+                <th:block th:if="${post.tags.size()} != 0">
+                    <spam class="post_tags_devider">|</spam>
+                    <th:block th:each="tag : ${post.tags}">
+                        <i class="ri-hashtag"></i><span th:text="${tag.spec.displayName}"></span>
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{modules/page::page(${posts}, ${posts.totalPages}, 'post')}"></div>
+</div>

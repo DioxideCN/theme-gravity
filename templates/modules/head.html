@@ -1,0 +1,61 @@
+<head th:fragment="head(head, title)">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="author" content="${metadata.name!}" />
+    <meta name="description" content="${meta_description!}" />
+    <meta name="keywords" content="${meta_keywords!}" />
+
+    <title th:text="${title}"></title>
+
+    <th:block th:if="${head != null}">
+      <th:block th:replace="${head}" />
+    </th:block>
+
+    <link rel="shortcut icon" th:href="@{${site.favicon}}" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.5.0/font/qweather-icons.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/css/normalize.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/animate/animate.min.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/remixicon/remixicon.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/highlight/highlight.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/css/gravity.css(t=${#dates.createNow().time})}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/css/font-face.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/font-awesome/css/all.min.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/highlight/highlight.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/custom-dom/dom.custom.css}" />
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/assets/libs/prism/themes/prism-gravity.css}" />
+
+    <script th:src="@{/assets/libs/prism/prism.js}"></script>
+    <script th:src="@{/assets/libs/three/three.min.js}"></script>
+    <script th:src="@{/assets/libs/three/TweenMax.min.js}"></script>
+    <script th:src="@{/assets/libs/custom-dom/dom.custom.js}"></script>
+    <script th:src="@{/assets/libs/katex/katex-0.16.8/package/dist/katex.min.js}"></script>
+    <script th:src="@{/assets/libs/mermaid/mermaid-10.2.4/package/dist/mermaid.min.js}"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+    <script type="module">
+        import giscus from 'https://cdn.jsdelivr.net/npm/giscus@1.3.0/+esm'
+    </script>
+    <script id="setup">
+        const giscusTheme = {
+            light: "[[${theme.config.cmt.data_theme.data_theme_light}]]",
+            dark: "[[${theme.config.cmt.data_theme.data_theme_dark}]]",
+        };
+        const githubInfo = "[[${theme.config.cmt.data_repo}]]" || "";
+        // init theme
+        (function () {
+            const initTheme = (themeName) => {
+                document.documentElement.setAttribute('data-theme', themeName);
+                document.documentElement.className = themeName;
+                localStorage.setItem('theme', themeName);
+            }
+            if (localStorage.getItem('theme') === null) {
+                initTheme('light');
+            } else {
+                initTheme(localStorage.getItem('theme'));
+            }
+        })();
+    </script>
+</head>

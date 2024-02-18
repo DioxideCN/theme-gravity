@@ -1,0 +1,17 @@
+<th:block th:fragment="post">
+    <div class="post-category--bar">
+        <div class="tabs" th:with="categories = ${categoryFinder.listAll()}">
+            <div class="each-tab action-switch--category" th:classappend="${#strings.isEmpty(category)} ? 'actived' : ''">
+                全部
+                <span class="category-counter">[[${posts.total}]]</span>
+            </div>
+            <th:block th:each="categoryItem : ${categories}">
+                <div th:data-category="${categoryItem.metadata.name}" class="each-tab action-switch--category">
+                    [[${categoryItem.spec.displayName}]]
+                    <span class="category-counter" th:if="${categoryItem.status.postCount != 0}" th:text="${categoryItem.status.postCount}"></span>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <th:block th:replace="~{modules/post.list::postList(${posts.items})}"></th:block>
+</th:block>

@@ -1,0 +1,493 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: theme-gravity-setting
+spec:
+  forms:
+    - group: basic
+      label: 基本设置
+      formSchema:
+        - $formkit: group
+          name: logo
+          label: 站点Logo
+          help: 设置站点Logo，不填写或缺少一个则使用默认Logo
+          value:
+            light:
+            dark:
+            height:
+          children:
+            - $formkit: attachment
+              name: light
+              label: 浅色
+              placeholder: 使用URL或选择文件
+            - $formkit: attachment
+              name: dark
+              label: 深色
+              placeholder: 使用URL或选择文件
+            - $formkit: text
+              name: height
+              label: 高度（像素）
+              value: 58
+              validation: number
+              validation-visibility: live
+              placeholder: 单位像素（px）不需要填写
+        - $formkit: group
+          name: home
+          label: 首页配置
+          value:
+            sub_title_1:
+            sub_title_2:
+          children:
+            - $formkit: text
+              name: sub_title_1
+              label: 标题
+              value: "标题"
+            - $formkit: text
+              name: sub_title_2
+              label: 副标题
+              value: "副标题"
+        - $formkit: group
+          name: news
+          label: 要闻
+          help: 主页NEWS模块
+          value:
+            content:
+            url:
+          children:
+            - $formkit: text
+              name: content
+              label: 要闻内容
+              value: "感谢使用 Gravity 主题，您可以在主题中客制化相关配置"
+            - $formkit: text
+              name: url
+              label: 跳转链接
+              value: "/home"
+        - $formkit: text
+          name: mitt_beian
+          label: 备案号
+    
+    - group: pages
+      label: 其它页面
+      formSchema:
+        - $formkit: group
+          name: directory
+          label: 目录
+          help: 配置目录页面的内容
+          value:
+            head:
+            sub:
+          children:
+            - $formkit: text
+              name: head
+              label: 标题
+              value: "目录"
+            - $formkit: text
+              name: sub
+              label: 副标题
+              value: "卷帙浩繁，博闻强识"
+        - $formkit: group
+          name: links
+          label: 友链
+          help: 配置友情链接页面的内容
+          value:
+            head:
+            sub:
+          children:
+            - $formkit: text
+              name: head
+              label: 标题
+              value: "朋友圈"
+            - $formkit: text
+              name: sub
+              label: 副标题
+              value: "海内存知己，天涯若比邻"
+        - $formkit: group
+          name: moments
+          label: 瞬间
+          help: 配置瞬间页面的内容
+          value:
+            head:
+            sub:
+          children:
+            - $formkit: text
+              name: head
+              label: 标题
+              value: "瞬间"
+            - $formkit: text
+              name: sub
+              label: 副标题
+              value: "玻璃晴朗，桔子辉煌"
+
+    - group: sidebar
+      label: 侧边栏设置
+      formSchema:
+        - $formkit: radio
+          name: widget_weather
+          label: 和风天气
+          value: false
+          help: 是否启用和风天气，设置和风天气 API 需要安装 Gravity-Power 插件
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: group
+          name: widget_about
+          label: 关于我
+          help: 设置"关于我"的展示模块
+          value:
+            enable:
+            avatar:
+            nickname:
+            description:
+            address:
+            email:
+          children:
+            - $formkit: radio
+              name: enable
+              id: is_about_enable
+              label: 是否启用
+              value: true
+              options:
+                - label: 是
+                  value: true
+                - label: 否
+                  value: false
+            - $formkit: attachment
+              name: avatar
+              if: $get(is_about_enable).value
+              label: 设置头像
+              placeholder: 请输入头像URL或选择文件
+              help: QQ头像接口为 http://q1.qlogo.cn/g?b=qq&nk=(QQ号)&s=640
+            - $formkit: text
+              name: nickname
+              if: $get(is_about_enable).value
+              label: 设置站长
+              value: XX的博客
+            - $formkit: text
+              name: description
+              if: $get(is_about_enable).value
+              label: 自我介绍
+              value: 用一句话简单介绍自己
+            - $formkit: text
+              name: address
+              if: $get(is_about_enable).value
+              label: 位置
+            - $formkit: text
+              name: email
+              if: $get(is_about_enable).value
+              label: 电子邮箱
+        - $formkit: radio
+          name: widget_search
+          label: 文章检索
+          value: true
+          help: 是否启用文章检索框，检索功能需要安装搜索插件
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: radio
+          name: widget_read
+          label: 热点文章
+          value: true
+          help: 是否启用热点文章排序模块
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: radio
+          name: widget_giscus
+          label: 最新评论
+          value: false
+          help: 是否启用最新评论模块，主题评论功能需要GravityPower插件支持
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: radio
+          name: widget_archive
+          label: 归档统计
+          value: false
+          help: 是否启用归档统计模块
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: radio
+          name: widget_tags
+          label: 分类标签
+          value: true
+          help: 是否启用分类标签模块
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: group
+          name: ko_fi
+          label: Ko-fi
+          help: 在侧边栏展示你的Ko-fi赞助信息，图片可在Ko-fi官网生成 https://ko-fi.com/
+          value:
+            support:
+            image:
+          children:
+            - $formkit: text
+              name: support
+              label: Ko-fi链接
+              help: 如果没有ko-fi赞助链接则留空即可
+            - $formkit: attachment
+              name: image
+              label: Ko-fi图片
+              help: 如果没有ko-fi赞助图片则留空即可
+
+    - group: cmt
+      label: 评论设置
+      formSchema:
+        - $formkit: select
+          name: data_lang
+          id: data_lang
+          key: data_lang
+          label: 语言
+          value: zh-CN
+          options:
+            - label: العربية
+              value: ar
+            - label: Català
+              value: ca
+            - label: Deutsch
+              value: de
+            - label: English
+              value: en
+            - label: Español
+              value: es
+            - label: فارسی
+              value: fa
+            - label: Français
+              value: fr
+            - label: עברית
+              value: he
+            - label: Indonesia
+              value: id
+            - label: Italiano
+              value: it
+            - label: 日本語
+              value: ja
+            - label: 한국어
+              value: ko
+            - label: Nederlands
+              value: nl
+            - label: Polski
+              value: pl
+            - label: Português
+              value: pt
+            - label: Română
+              value: ro
+            - label: Русский
+              value: ru
+            - label: ภาษาไทย
+              value: th
+            - label: Türkçe
+              value: tr
+            - label: Việt Nam
+              value: vi
+            - label: Українська
+              value: uk
+            - label: 简体中文
+              value: zh-CN
+            - label: 繁體中文
+              value: zh-TW
+        - $formkit: text
+          name: data_repo
+          label: 仓库
+          placeholder: 仓库所有者/仓库名
+          help: 一个公开的（public）GitHub 仓库，Discussion 将被连接到该仓库，格式必须是：所有者/仓库名。
+        - $formkit: text
+          name: data_repo_id
+          label: Giscus仓库ID
+          placeholder: Repository ID
+          help: Halo配置无法自动获取你的仓库ID，你需要通过 https://giscus.app/zh-CN 生成后填入。
+        - $formkit: group
+          name: data_mapping
+          label: 映射
+          value:
+            which_one:
+            specific_title:
+            disc_id:
+          children:
+            - $formkit: select
+              name: which_one
+              id: which_one
+              key: which_one
+              label: 评论映射方式
+              value: url
+              help: 选择页面与嵌入的 discussion 之间的映射关系，具体见 https://giscus.app/zh-CN。
+              options:
+                - label: Discussion的标题包含页面的pathname
+                  value: pathname
+                - label: Discussion的标题包含页面的url
+                  value: url
+                - label: Discussion的标题包含页面的title
+                  value: title
+                - label: Discussion的标题包含页面的og:title
+                  value: "og:title"
+                - label: Discussion的标题包含特定字符串
+                  value: specific
+                - label: 特定discussion号
+                  value: number
+            - $formkit: text
+              name: specific_title
+              label: 特定discussion号
+              if: "$get(which_one).value === specific"
+              placeholder: 在此输入字符串
+              help: giscus 将查找标题中包含特定字符串的 discussion。
+            - $formkit: text
+              name: disc_id
+              label: 特定discussion号
+              if: "$get(which_one).value === number"
+              placeholder: 在此输入 discussion 号
+              help: giscus 将按编号加载特定的 discussion。该选项不支持自动创建 discussion。
+        - $formkit: radio
+          name: data_strict
+          label: 标题严格匹配
+          value: true
+          if: "$get(which_one).value !== specific && $get(which_one).value !== number"
+          help: 当有多个具有相似标题的讨论时，避免由于 GitHub 的模糊搜索方法而导致的不匹配，当映射不为特定字符串/特定discussion号时有效。
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: text
+          name: data_category
+          label: Discussion分类
+          if: "$get(data_scanning).value"
+          placeholder: Discussion Category
+          help: 选择新 discussions 所在的分类。 必须确保该 discussion 只能由仓库维护者和 giscus 创建。
+        - $formkit: text
+          name: data_category_id
+          label: Discussion分类ID
+          placeholder: Discussion Category ID
+          help: Halo配置无法自动获取你的分类ID，你需要通过 https://giscus.app/zh-CN 生成后填入。
+        - $formkit: radio
+          name: data_scanning
+          id: data_scanning
+          label: 只搜索该分类
+          value: true
+          help: 当搜索匹配的discussion时，giscus 将只搜索该分类。
+          options:
+            - label: 是
+              value: true
+            - label: 否
+              value: false
+        - $formkit: group
+          name: data_feature
+          label: 特性
+          help: 选择是否启用某些特性。
+          value:
+            data_reactions_enabled:
+            data_emit_metadata:
+            data_input_position:
+            data_loading:
+          children:
+            - $formkit: checkbox
+              name: data_reactions_enabled
+              label: 启用主帖子上的反应（reaction）
+              value: true
+              help: Discussion 的主帖子上的反应将会显示在评论前。
+            - $formkit: checkbox
+              name: data_emit_metadata
+              label: 输出discussion的元数据
+              value: false
+              help: Discussion 的元数据将定期被发送到父页面（被嵌入的页面）。作为演示，尝试启用该选项并在此页面打开浏览器控制台。
+            - $formkit: checkbox
+              name: data_input_position
+              label: 将评论框放在评论上方
+              value: true
+              help: 评论输入框会放在评论上方，这样用户可以在不滚动到讨论底部的情况下发表评论。
+            - $formkit: checkbox
+              name: data_loading
+              label: 懒加载评论
+              value: true
+              help: 评论的加载将延迟到用户滚动到评论容器附近。
+        - $formkit: group
+          name: data_theme
+          label: 主题
+          help: 选择适合你网站的主题。
+          value:
+            data_theme_light:
+            data_theme_dark:
+          children:
+            - $formkit: select
+              name: data_theme_light
+              id: data_theme_light
+              key: data_theme_light
+              label: 浅色模式主题
+              value: light
+              options:
+                - label: GitHub Light
+                  value: light
+                - label: GitHub Light High Contrast
+                  value: light_high_contrast
+                - label: GitHub Light Protanopia & Deuteranopia
+                  value: light_high_contrast
+                - label: GitHub Light Tritanopia
+                  value: light_tritanopia
+                - label: GitHub Dark
+                  value: dark
+                - label: GitHub Dark High Contrast
+                  value: dark_high_contrast
+                - label: GitHub Dark Protanopia & Deuteranopia
+                  value: dark_high_contrast
+                - label: GitHub Dark Tritanopia
+                  value: dark_tritanopia
+                - label: GitHub Dark Dimmed
+                  value: dark_dimmed
+                - label: 用户偏好的色彩方案
+                  value: preferred_color_scheme
+                - label: Transparent Dark
+                  value: transparent_dark
+                - label: NoBorder Light
+                  value: noborder_light
+                - label: NoBorder Dark
+                  value: noborder_dark
+                - label: RStudio Cobalt
+                  value: cobalt
+            - $formkit: select
+              name: data_theme_dark
+              id: data_theme_dark
+              key: data_theme_dark
+              label: 深色模式主题
+              value: dark_dimmed
+              options:
+                - label: GitHub Light
+                  value: light
+                - label: GitHub Light High Contrast
+                  value: light_high_contrast
+                - label: GitHub Light Protanopia & Deuteranopia
+                  value: light_high_contrast
+                - label: GitHub Light Tritanopia
+                  value: light_tritanopia
+                - label: GitHub Dark
+                  value: dark
+                - label: GitHub Dark High Contrast
+                  value: dark_high_contrast
+                - label: GitHub Dark Protanopia & Deuteranopia
+                  value: dark_high_contrast
+                - label: GitHub Dark Tritanopia
+                  value: dark_tritanopia
+                - label: GitHub Dark Dimmed
+                  value: dark_dimmed
+                - label: 用户偏好的色彩方案
+                  value: preferred_color_scheme
+                - label: Transparent Dark
+                  value: transparent_dark
+                - label: NoBorder Light
+                  value: noborder_light
+                - label: NoBorder Dark
+                  value: noborder_dark
+                - label: RStudio Cobalt
+                  value: cobalt

@@ -1,0 +1,12 @@
+<th:block th:fragment="js">
+    <script th:src="@{/assets/libs/jquery/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/assets/libs/coco-message/coco-message.min.js}"></script>
+    <script th:src="@{/assets/js/gravity.init.js}"></script>
+    <script th:if="${#strings.equals(_templateId, 'post')}" th:src="@{/assets/js/post.init.js}"></script>
+    <th:block th:unless="${#strings.equals(_templateId, 'post')}">
+        <script th:src="@{/assets/js/page.init.js}"></script>
+    </th:block>
+    <th:block th:if="${theme.config.basic.mathjax}">
+        <th:block th:replace="~{modules/mathjax :: mathjax}"></th:block>
+    </th:block>
+</th:block>

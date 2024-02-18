@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+    th:replace="~{layout :: html(head =  ~{::head}, title = '瞬间 ｜ ' + ${site.title} ,content = ~{::content}, bannerSection = ~{modules/banner::banner-moments}, err = false)}">
+<th:block th:fragment="head">
+</th:block>
+
+<th:block th:fragment="content">
+    <th:block th:each="moment : ${moments.items}" th:with="content=${moment.spec.content}">
+        <div class="moment-card">
+            <div class="moment-release--time">
+                <i class="ri-time-line"></i>
+                发布于<relative-time tense="past"
+                    th:datetime="${moment.spec.releaseTime}"
+                    data-view-component="true"
+                    th:title="${#temporals.format(moment.spec.releaseTime, 'yyyy-MM-dd')}"
+                    th:text="${#temporals.format(moment.spec.releaseTime, 'yyyy年MM月dd日')}">
+                </relative-time>
+            </div>
+            <th:block th:utext="${content.html}"></th:block>
+            <div class="moment-medium" th:with="medium=${content.medium}">
+                <th:block th:each="media : ${medium}">
+                    <div class="moment-medium--image">
+                        <img th:if="${#strings.equals(media.type, 'PHOTO')}"
+                            th:src="${media?.url}"
+                            alt="moment image"
+                            loading="lazy"/>
+                    </div>
+                </th:block>
+            </div>
+            <div class="moment-action">
+                <a th:href="|javascript:handleMomentLike('${moment.metadata.name}')|" th:data-metadata-name="${moment.metadata.name}">
+                    <i class="ri-thumb-up-line"></i>
+                    <span th:data-moment-name="${moment.metadata.name}" th:text="${moment.stats.upvote}"></span>
+                </a>
+            </div>
+        </div>
+    </th:block>
+    <div th:replace="~{modules/page::page(${moments}, ${(moments.total / moments.size) + (moments.total % moments.size > 0 ? 1 : 0)}, 'moments')}"></div>
+</th:block>
+</html>

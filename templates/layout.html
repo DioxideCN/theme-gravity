@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn" data-theme="light" xmlns:th="https://www.thymeleaf.org" th:fragment="html (head, title, content, bannerSection, err)">
+<head th:replace="~{modules/head::head(head=${head}, title=${title})}">
+</head>
+
+<body class="line-numbers">
+    <div th:replace="~{modules/nav::nav}"></div>
+
+    <th:block th:unless="${err}">
+        <th:block th:if="${bannerSection != null}">
+            <th:block th:replace="${bannerSection}"></th:block>
+        </th:block>
+        <div th:replace="~{::news-section}"></div>
+    </th:block>
+
+    <div class="main animated fadeInDown" th:style="${#strings.equals(_templateId, 'post')} ? 'padding: 1rem 0;' : ''">
+        <section th:unless="${err}" class="section-sidebar">
+            <th:block th:replace="~{modules/sidebar::sidebar}" />
+        </section>
+        <section th:class="${err} ? 'section-content error' : 'section-content'">
+            <th:block th:replace="${content}" />
+        </section>
+    </div>
+
+    <th:block th:if="${#strings.equals(_templateId, 'post')}">
+        <div id="mobile-directory"><i class="fa-solid fa-list"></i></div>
+        <div class="mobile-toc toc-menu"><ul id="mobile-directory-menu"></ul></div>
+    </th:block>
+
+    <footer th:replace="~{modules/footer::footer}"></footer>
+    <footer th:replace="~{modules/js::js}"></footer>
+</body>
+</html>
+
+<th:block th:fragment="news-section" 
+     th:if="${!#strings.equals(_templateId, 'post') && !#strings.isEmpty(_templateId) && !#strings.equals(_templateId, 'moments') && !#strings.equals(singlePage?.spec.slug, 'about') && !#strings.equals(singlePage?.spec.slug, 'activity') && !#strings.equals(singlePage?.spec.slug, 'directory')}">
+    <div class="news-column">
+        <div class="container">
+            <span class="tag-news">NEWS</span>
+            <span class="news-divider">|</span>
+            <a class="news-link link-blue" th:href="${theme.config.basic.news.url}" th:text="${theme.config.basic.news.content}"></a>
+        </div>
+    </div>
+</th:block>

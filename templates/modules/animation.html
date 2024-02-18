@@ -1,0 +1,59 @@
+<th:block th:fragment="animate-rotate-card">
+    <div class="paper-card-animation">
+        <div class="paper-card-container">
+            <div class="paper-card-item paper-card-1"></div>
+            <div class="paper-card-item paper-card-2"></div>
+            <div class="paper-card-item paper-card-3"></div>
+            <div class="paper-card-item paper-card-4"></div>
+            <div class="paper-card-item paper-card-5"></div>
+            <div class="paper-card-item paper-card-6"></div>
+            <div class="paper-card-item paper-card-7"></div>
+            <div class="paper-card-item paper-card-8"></div>
+            <div class="paper-card-item paper-card-9"></div>
+            <div class="paper-card-item paper-card-10"></div>
+            <div class="paper-card-item paper-card-11"></div>
+            <div class="paper-card-item paper-card-12"></div>
+            <div class="paper-card-item paper-card-13"></div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="animate-crowd">
+    <canvas style="position: absolute; bottom: 0; left: 0; width: 100%;" id="animation-crowd"></canvas>
+    <script th:src="@{/assets/js/animate.crowd.js}"></script>
+</th:block>
+
+<th:block th:fragment="animate-light-wave">
+    <script id="vertexShader" type="x-shader/x-vertex">
+        void main() { gl_Position = vec4(position, 1.0); }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        precision highp float;
+        uniform vec2 resolution;
+        uniform float time;
+        void main(void) {
+            vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+            float t = time * 0.05;
+            float lineWidth = 0.002;
+            vec3 color = vec3(0.0);
+            for(int j = 0; j < 3; j++) {
+                for(int i = 0; i < 5; i++) {
+                    color[j] += lineWidth * float(i * i) / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 5.0 - length(uv) + mod(uv.x + uv.y, 0.2));
+                }
+            }
+            gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
+        }
+    </script>
+    <div id="hero-light--container"></div>
+    <script th:src="@{/assets/js/animate.light.js}"></script>
+</th:block>
+
+<th:block th:fragment="animate-black-hole">
+    <div class="experience" style="position: absolute; width: 100vw; height: 100%;"></div>
+    <script th:src="@{/assets/js/animate.blackhole.js}"></script>
+</th:block>
+
+<th:block th:fragment="animate-worm">
+    <div id="worm-controls"></div>
+    <script th:src="@{/assets/js/animate.worm.js}"></script>
+</th:block>

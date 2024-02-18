@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+    th:replace="~{layout :: html(head =  ~{::head}, title = '朋友圈 ｜ ' + ${site.title} ,content = ~{::content}, bannerSection = ~{modules/banner::banner-links}, err = false)}">
+
+<th:block th:fragment="head">
+    <script th:src="@{/assets/libs/fancyapps/ui-5.0.20/package/dist/index.umd.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/libs/fancyapps/ui-5.0.20/package/dist/fancybox/fancybox.css}" />
+</th:block>
+
+<th:block th:fragment="content">
+    <div class="content friend-content">
+        <th:block th:each="group : ${groups}">
+            <a th:href="${site.url}" target="_blank">
+                <div class="friend-item">
+                    <a class="friend-avatar" th:href="${site.url}">
+                        <img class="link-img"link-img th:src="${theme.config.sidebar.widget_about.avatar}" th:alt="${theme.config.sidebar.widget_about.nickname}">
+                    </a>
+                    <div class="friend-info">
+                        <a th:href="${site.url}" target="_blank" th:text="${theme.config.sidebar.widget_about.nickname}"></a>
+                        <p th:text="${theme.config.sidebar.widget_about.description}"></p>
+                    </div>
+                </div>
+            </a>
+            <a th:each="link : ${group.links}" th:href="${link.spec.url}" target="_blank" th:remove="tag">
+                <div class="friend-item">
+                    <a class="friend-avatar" th:href="${link.spec.url}">
+                        <img class="link-img"link-img th:src="${link.spec.logo}" th:alt="${link.spec.displayName}">
+                    </a>
+                    <div class="friend-info">
+                        <a th:href="${link.spec.url}" target="_blank" th:text="${link.spec.displayName}"></a>
+                        <p th:text="${link.spec.description}"></p>
+                    </div>
+                </div>
+            </a>
+        </th:block>
+        <giscus-widget
+          id="comments"
+          th:attr="lang=${theme.config.cmt.data_lang}
+            ,repo=${theme.config.cmt.data_repo}
+            ,repoid=${theme.config.cmt.data_repo_id}
+            ,mapping=${theme.config.cmt.data_mapping.which_one}
+            ,data-term=(${theme.config.cmt.data_mapping.disc_id}?${theme.config.cmt.data_mapping.disc_id}:(${theme.config.cmt.data_mapping.specific_title}?${theme.config.cmt.data_mapping.specific_title}:''))
+            ,strict=(${theme.config.cmt.data_strict}?'1':'0')
+            ,category=(${theme.config.cmt.data_scanning}?${theme.config.cmt.data_category}:'')
+            ,categoryid=${theme.config.cmt.data_category_id}
+            ,reactionsenabled=0
+            ,emitmetadata=(${theme.config.cmt.data_feature.data_emit_metadata}?'1':'0')
+            ,inputposition=(${theme.config.cmt.data_feature.data_input_position}?'top':'bottom')
+            ,theme=${theme.config.cmt.data_theme.data_theme_light}
+            ,loading=(${theme.config.cmt.data_feature.data_loading}?'lazy':'')"
+          crossorigin="anonymous"
+          async
+        ></giscus-widget>
+    </div>
+</th:block>
+</html>

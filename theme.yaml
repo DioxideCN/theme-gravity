@@ -1,0 +1,17 @@
+apiVersion: theme.halo.run/v1alpha1
+kind: Theme
+metadata:
+  name: theme-gravity
+spec:
+  displayName: Theme Gravity
+  author:
+    name: DioxideCN
+    website: "https://dioxide-cn.ink/"
+  description: Theme Gravity参考了spring.io官网的设计进行开发
+  logo: /themes/theme-gravity/assets/images/theme-logo.png
+  website: https://dioxide-cn.ink/
+  repo: https://github.com/DioxideCN/theme-gravity
+  settingName: theme-gravity-setting
+  configMapName: theme-gravity-configMap
+  version: 1.0.0
+  require: ">=2.10.0"

@@ -1,0 +1,18 @@
+<footer th:fragment="footer" class="footer">
+  <div class="powered_by">
+    <a th:if="${theme.config.basic.mitt_beian} != null and ${not #strings.isEmpty(theme.config.basic.mitt_beian)}" 
+        th:text="${theme.config.basic.mitt_beian}+','" 
+        href="https://beian.miit.gov.cn/" 
+        target="_blank" 
+        class="link-gray">
+    </a>
+    Theme Gravity designed by
+    <a href="https://github.com/varkai/hugo-theme-zozo" target="_blank" class="link-gray">DioxideCN,</a>
+    Powered by
+    <a href="https://halo.run/" target="_blank" class="link-gray">Halo</a>
+  </div>
+
+  <div class="footer_slogan" th:if="${not #strings.isEmpty(theme.config.basic.footer_slogan)}">
+    <span th:text="${theme.config.basic.mitt_beian} "></span>
+  </div>
+</footer>

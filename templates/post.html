@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{layout :: html(head = ~{::head}, title = ${post.spec.title} + ' ｜ ' + ${site.title}, content = ~{::content}, bannerSection = null, err = false)}">
+
+<th:block th:fragment="head">
+    <script th:src="@{/assets/libs/fancyapps/ui-5.0.20/package/dist/index.umd.js}"></script>
+    <script type="module">
+    mermaid.initialize({startOnLoad:true});
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('div.code-toolbar > pre.language-mermaid').forEach((block) => {
+            const code = block.textContent;
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.classList.add('mermaid');
+            mermaidDiv.classList.add('mermaid-box');
+            mermaidDiv.textContent = code;
+            block.parentNode.parentNode.replaceChild(mermaidDiv, block.parentNode);
+        });
+    });
+    </script>
+    <link rel="stylesheet" th:href="@{/assets/libs/fancyapps/ui-5.0.20/package/dist/fancybox/fancybox.css}" />
+</th:block>
+
+<th:block th:fragment="content">
+    <div class="content">
+        <div class="post_page">
+            <div class="post animated fadeInDown">
+                <div class="post_title post_detail_title">
+                    <h2 th:text="${post.spec.title}"></h2>
+                    <div class="post_tags">
+                        <i class="ri-time-line"></i><time th:attr="datetime=${#dates.format(post.spec.publishTime, 'yyyy/MM/dd')}"
+                            th:text="${#dates.format(post.spec.publishTime,'yyyy/MM/dd')}"
+                            th:title="${#dates.format(post.spec.publishTime,'yyyy/MM/dd')}"></time>
+                        <spam class="post_tags_devider">|</spam>
+                        <i class="ri-eye-line"></i><span th:text="${post.stats.visit}"></span>
+                        <spam class="post_tags_devider">|</spam>
+                        <i class="ri-thumb-up-line"></i><span th:data-post-name="${post.metadata.name}" th:text="${post.stats.upvote}"></span>
+                        <th:block th:if="${post.categories.size()} != 0">
+                            <spam class="post_tags_devider">|</spam>
+                            <i class="ri-archive-line"></i><span th:text="${post.categories.get(0).spec.displayName}"></span>
+                        </th:block>
+                        <th:block th:if="${post.tags.size()} != 0">
+                            <spam class="post_tags_devider">|</spam>
+                            <th:block th:each="tag : ${post.tags}">
+                                <i class="ri-hashtag"></i><span th:text="${tag.spec.displayName}"></span>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="post_content markdown" th:utext="${post.content.content}"></div>
+            </div>
+        </div>
+        <div class="post_footer">
+            
+        </div>
+        <giscus-widget
+            id="comments"
+            th:if="${post.spec.allowComment}"
+            th:attr="lang=${theme.config.cmt.data_lang}
+            ,repo=${theme.config.cmt.data_repo}
+            ,repoid=${theme.config.cmt.data_repo_id}
+            ,mapping=${theme.config.cmt.data_mapping.which_one}
+            ,data-term=(${theme.config.cmt.data_mapping.disc_id}?${theme.config.cmt.data_mapping.disc_id}:(${theme.config.cmt.data_mapping.specific_title}?${theme.config.cmt.data_mapping.specific_title}:''))
+            ,strict=(${theme.config.cmt.data_strict}?'1':'0')
+            ,category=(${theme.config.cmt.data_scanning}?${theme.config.cmt.data_category}:'')
+            ,categoryid=${theme.config.cmt.data_category_id}
+            ,reactionsenabled=(${theme.config.cmt.data_feature.data_reactions_enabled}?'1':'0')
+            ,emitmetadata=(${theme.config.cmt.data_feature.data_emit_metadata}?'1':'0')
+            ,inputposition=(${theme.config.cmt.data_feature.data_input_position}?'top':'bottom')
+            ,theme=${theme.config.cmt.data_theme.data_theme_light}
+            ,loading=(${theme.config.cmt.data_feature.data_loading}?'lazy':'')"
+            crossorigin="anonymous"
+            async
+        ></giscus-widget>
+    </div>
+</th:block>
+</html>

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+    th:replace="~{layout :: html(head = null, title = ${site.title}, content = ~{::content}, bannerSection = ~{modules/banner::banner-default}, err = false)}">
+    <th:block th:fragment="content">
+        <div class="content">
+            <div th:replace="~{modules/post::post}"></div>
+        </div>
+    </th:block>
+</html>

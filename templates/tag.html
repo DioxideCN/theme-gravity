@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+    th:replace="~{layout :: html(head = ~{::head}, title =${tag.spec.displayName} + ' ｜ ' + ${site.title}, content = ~{::content}, bannerSection = ~{modules/banner::banner-tag}, err = false)}">
+
+<th:block th:fragment="head">
+</th:block>
+
+<th:block th:fragment="content">
+    <div class="content">
+        <div class="post_page">
+            <div class="post animated fadeInDown">
+                <div class="post_title post_detail_title">
+                    <h2>分类：[[${tag.spec.displayName}]]</h2>
+                    <div class="post_tags">
+                        创建于
+                        <time th:attr="datetime=${#dates.format(tag.metadata.creationTimestamp, 'yyyy-MM-dd')}"
+                            th:text="${#dates.format(tag.metadata.creationTimestamp, 'yyyy年MM月dd日')}"
+                            th:title="${#dates.format(tag.metadata.creationTimestamp, 'yyyy-MM-dd')}"></time>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="list_with_title">
+            <div class="listing">
+                <th:block th:replace="~{modules/post.list::postList(${posts.items})}"></th:block>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>
